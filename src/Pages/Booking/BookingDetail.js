@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons'; // Sử dụng icon cho nút quay lại
+import LinearGradient from 'react-native-linear-gradient'; // Sử dụng gradient cho nút
 
 const BookingDetailScreen = () => {
   return (
@@ -8,7 +9,7 @@ const BookingDetailScreen = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <Text style={styles.backIcon}>←</Text>
+          <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Chi tiết đặt phòng</Text>
       </View>
@@ -83,8 +84,6 @@ const BookingDetailScreen = () => {
       <TouchableOpacity style={styles.button}>
         <LinearGradient
           colors={['#00C4B4', '#2196F3']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
           style={styles.gradientButton}
         >
           <Text style={styles.buttonText}>Đặt lại</Text>
@@ -104,10 +103,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 20,
-  },
-  backIcon: {
-    fontSize: 24,
-    color: 'black',
   },
   headerTitle: {
     fontSize: 20,
