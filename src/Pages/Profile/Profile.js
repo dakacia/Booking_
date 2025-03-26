@@ -21,21 +21,30 @@ const Profile = () => {
       const fetchUserData = async () => {
         try {
           const storedData = await AsyncStorage.getItem("userProfile");
+          console.log("Dữ liệu lưu trữ:", storedData);
+  
           if (storedData) {
-            setUserData(JSON.parse(storedData));
+            const parsedData = JSON.parse(storedData);
+            
+            setUserData({
+              name: parsedData.name || "John Smith",
+              email: parsedData.email || "johnsmith@gmail.com",
+              phone: parsedData.phone || "+225 698698966",
+              avatar: parsedData.avatar 
+                ? { uri: parsedData.avatar } 
+                : require("../../../assets/images/profile.png"),
+            });
           }
         } catch (error) {
           console.error("Lỗi khi lấy dữ liệu người dùng:", error);
         }
       };
-      
+  
       fetchUserData();
     }, [])
   );
   
-  // useFocusEffect(() =>{
-  //   console.log(">>>> chay roi");
-  // },[])
+  
   return (
     <View style={styles.container}>
       {/* Ảnh nền */}

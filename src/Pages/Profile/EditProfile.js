@@ -26,34 +26,35 @@ const EditProfile = () => {
       aspect: [1, 1],
       quality: 1,
     });
-    console.log("Image URI:", result.assets[0].uri);
-
-    if (!result.canceled) {
+  
+    if (result.canceled) {
+      console.log("Người dùng đã hủy chọn ảnh.");
+      return;
+    }
+  
+    if (result.assets && result.assets.length > 0) {
+      console.log("Image URI:", result.assets[0].uri);
       setAvatar(result.assets[0].uri);
     }
   };
 
-  // Xử lý lưu thông tin
-  // const handleSave = async () => {
-  //   const updatedData = { name, email, phone, avatar };
-  //   await AsyncStorage.setItem("userProfile", JSON.stringify(updatedData));
-  //   navigation.goBack();
-  // };
-
   const handleSave = async () => {
-    const updatedData = { name, email, phone, avatar };
-    await AsyncStorage.setItem("userProfile", JSON.stringify(updatedData));
-    navigation.navigate("Profile", { updated: true }); // Truyền tham số để báo màn hình trước cập nhật
+    try {
+      const updatedData = { name, email, phone, avatar };
+      await AsyncStorage.setItem("userProfile", JSON.stringify(updatedData));
+      console.log("Dữ liệu đã được lưu:", updatedData);
+      navigation.navigate("Hồ sơ", { updated: true }); // Điều hướng về màn hình Hồ sơ
+    } catch (error) {
+      console.error("Lỗi khi lưu dữ liệu:", error);
+    }
   };
   
 
   return (
     <View style={styles.container}>
-      
-
       {/* Avatar */}
       <TouchableOpacity style={styles.avatarContainer} onPress={pickImage}>
-        <Image source={{ uri: avatar }} style={styles.avatar} />
+        <Image source={avatar} style={styles.avatar} />
         <Ionicons name="camera" size={24} color="white" style={styles.cameraIcon} />
       </TouchableOpacity>
 
