@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const rewards = [
@@ -7,26 +13,29 @@ const rewards = [
   { id: "2", title: "Giảm 15% cho mọi đặt phòng", points: 1000 },
 ];
 
-const PointsScreen = ({ navigation }) => {
+const Points = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>Điểm: 2300</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Lịch sử dùng điểm")}>
+        <TouchableOpacity onPress={() => navigation.navigate("PointsHistory")}>
           <Text style={styles.historyText}>Lịch sử</Text>
         </TouchableOpacity>
       </View>
-
       {/* Danh sách voucher */}
       <FlatList
         data={rewards}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.rewardItem}>
-            <Icon name="ticket-percent-outline" size={40} color="#007BFF" />
-            <View style={styles.rewardTextContainer}>
+            <View style={styles.rewardItemGroup}>
+              <Icon name="ticket-percent-outline" size={60} color="#007BFF" />
+            </View>
+            <View style={styles.rewardItemGroup}>
               <Text style={styles.rewardTitle}>{item.title}</Text>
+            </View>
+            <View style={styles.rewardItemGroup}>
               <Text style={styles.rewardPoints}>{item.points} điểm</Text>
             </View>
           </View>
@@ -53,15 +62,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   historyText: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#007BFF",
+    fontWeight: "bold",
   },
   rewardItem: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderColor: "#ddd",
+  },
+  rewardItemGroup: {
+    width: "30%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   rewardTextContainer: {
     marginLeft: 10,
@@ -76,4 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PointsScreen;
+export default Points;

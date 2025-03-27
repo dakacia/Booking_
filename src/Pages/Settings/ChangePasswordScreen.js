@@ -1,94 +1,84 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState, useLayoutEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Switch,
+  navigation,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const ChangePasswordScreen = () => {
-  const navigation = useNavigation();
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const handleUpdatePassword = () => {
-    setError("");
-
-    if (!oldPassword || !newPassword || !confirmPassword) {
-      setError("Vui lòng nhập đầy đủ thông tin!");
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      setError("Xác nhận mật khẩu mới không khớp!");
-      return;
-    }
-
-    // Giả lập xác thực mật khẩu cũ (thực tế sẽ kiểm tra từ server)
-    if (oldPassword !== "123456") { // Thay "123456" bằng dữ liệu thực tế từ API
-      setError("Mật khẩu cũ không chính xác!");
-      return;
-    }
-
-    // Gửi API đổi mật khẩu tại đây...
-
-    alert("Mật khẩu đã được cập nhật!");
-    navigation.goBack(); // Quay lại màn hình trước đó
+const SettingsScreen = ({ navigation }) => {
+  //   const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.getParent().setOptions({ tabBarStyle: { display: "none" } });
+    return () => {
+      navigation.getParent().setOptions({ tabBarStyle: { display: "flex" } });
+    };
+  }, [navigation]);
+  const handleToChangePassword = () => {
+    navigation.navigate("ChangePasswordScreen");
   };
+  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true);
 
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
-      <Text style={styles.title}>Đổi mật khẩu</Text> */}
-
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Mật khẩu cũ"
-          secureTextEntry={!showOldPassword}
-          value={oldPassword}
-          onChangeText={setOldPassword}
-        />
-        <TouchableOpacity onPress={() => setShowOldPassword(!showOldPassword)} style={styles.eyeIcon}>
-          <Ionicons name={showOldPassword ? "eye-off" : "eye"} size={24} color="gray" />
+      <View style={[styles.settingCard, { marginBottom: 50 }, { padding: 5 }]}>
+        <View style={styles.optionItem}>
+          <Text style={styles.optionText}>Thông báo</Text>
+          <Switch
+            value={isNotificationsEnabled}
+            onValueChange={(value) => setIsNotificationsEnabled(value)}
+          />
+        </View>
+      </View>
+      <View style={styles.settingCard}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => navigation.navigate("PrivacyPolicy")}
+        >
+          <Text style={styles.optionText}>Chính sách quyền riêng tư</Text>
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
         </TouchableOpacity>
       </View>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Mật khẩu mới"
-          secureTextEntry={!showNewPassword}
-          value={newPassword}
-          onChangeText={setNewPassword}
-        />
-        <TouchableOpacity onPress={() => setShowNewPassword(!showNewPassword)} style={styles.eyeIcon}>
-          <Ionicons name={showNewPassword ? "eye-off" : "eye"} size={24} color="gray" />
+      <View style={[styles.settingCard, { marginBottom: 50 }]}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => navigation.navigate("TermsConditions")}
+        >
+          <Text style={styles.optionText}>Điều khoản & Điều kiện</Text>
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
         </TouchableOpacity>
       </View>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Xác nhận mật khẩu mới"
-          secureTextEntry={!showConfirmPassword}
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        />
-        <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)} style={styles.eyeIcon}>
-          <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} size={24} color="gray" />
+      <View style={styles.settingCard}>
+        <TouchableOpacity style={styles.optionItem}>
+          <Text style={styles.optionText}>Tìm hiểu thêm về ứng dụng</Text>
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity style={styles.updateButton} onPress={handleUpdatePassword}>
-        <Text style={styles.updateButtonText}>Cập nhật mật khẩu</Text>
-      </TouchableOpacity>
+      <View style={styles.settingCard}>
+        <TouchableOpacity style={styles.optionItem}>
+          <Text style={styles.optionText}>Hỗ trợ</Text>
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
+        </TouchableOpacity>
+      </View>
+      <View style={[styles.settingCard, { marginBottom: 50 }]}>
+        <TouchableOpacity style={styles.optionItem}>
+          <Text style={styles.optionText}>Đánh giá ứng dụng</Text>
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.settingCard}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => handleToChangePassword()}
+        >
+          <Text style={styles.optionText}>Đổi mật khẩu</Text>
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -96,55 +86,38 @@ const ChangePasswordScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F7F8FA",
+    backgroundColor: "#EFF3F6",
     padding: 20,
   },
-  backButton: {
-    position: "absolute",
-    top: 20,
-    left: 20,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 30,
-    marginTop: 20,
-  },
-  errorText: {
-    color: "red",
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  inputContainer: {
+  header: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: "#ddd",
+    marginBottom: 20,
   },
-  input: {
-    flex: 1,
-    height: 50,
-  },
-  eyeIcon: {
-    padding: 10,
-  },
-  updateButton: {
-    backgroundColor: "#00C853",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-    marginTop: 20,
-  },
-  updateButtonText: {
-    color: "white",
-    fontSize: 16,
+  title: {
+    fontSize: 20,
     fontWeight: "bold",
+    marginLeft: 10,
+  },
+  settingCard: {
+    backgroundColor: "white",
+    padding: 15,
+    borderRadius: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+    marginBottom: 10,
+  },
+  optionItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  optionText: {
+    fontSize: 16,
+    color: "#333",
   },
 });
 
-export default ChangePasswordScreen;
+export default SettingsScreen;

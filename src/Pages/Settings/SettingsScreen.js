@@ -1,16 +1,31 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Switch } from "react-native";
+import React, { useState, useLayoutEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Switch,
+  navigation,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const SettingsScreen = () => {
-  const navigation = useNavigation();
+const SettingsScreen = ({ navigation }) => {
+  //   const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.getParent().setOptions({ tabBarStyle: { display: "none" } });
+    return () => {
+      navigation.getParent().setOptions({ tabBarStyle: { display: "flex" } });
+    };
+  }, [navigation]);
+  const handleToChangePassword = () => {
+    navigation.navigate("ChangePasswordScreen");
+  };
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true);
 
   return (
     <View style={styles.container}>
-
-      <View style={styles.settingCard}>
+      <View style={[styles.settingCard, { marginBottom: 50 }, { padding: 5 }]}>
         <View style={styles.optionItem}>
           <Text style={styles.optionText}>Thông báo</Text>
           <Switch
@@ -18,37 +33,50 @@ const SettingsScreen = () => {
             onValueChange={(value) => setIsNotificationsEnabled(value)}
           />
         </View>
-
-        <TouchableOpacity style={styles.optionItem} onPress={() => navigation.navigate("PrivacyPolicy")}> 
+      </View>
+      <View style={styles.settingCard}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => navigation.navigate("PrivacyPolicy")}
+        >
           <Text style={styles.optionText}>Chính sách quyền riêng tư</Text>
-          <Ionicons name="chevron-forward" size={20} color="#555" />
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.optionItem} onPress={() => navigation.navigate("TermsConditions")}> 
+      </View>
+      <View style={[styles.settingCard, { marginBottom: 50 }]}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => navigation.navigate("TermsConditions")}
+        >
           <Text style={styles.optionText}>Điều khoản & Điều kiện</Text>
-          <Ionicons name="chevron-forward" size={20} color="#555" />
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
         </TouchableOpacity>
-
+      </View>
+      <View style={styles.settingCard}>
         <TouchableOpacity style={styles.optionItem}>
           <Text style={styles.optionText}>Tìm hiểu thêm về ứng dụng</Text>
-          <Ionicons name="chevron-forward" size={20} color="#555" />
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
         </TouchableOpacity>
-
+      </View>
+      <View style={styles.settingCard}>
         <TouchableOpacity style={styles.optionItem}>
           <Text style={styles.optionText}>Hỗ trợ</Text>
-          <Ionicons name="chevron-forward" size={20} color="#555" />
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
         </TouchableOpacity>
-
+      </View>
+      <View style={[styles.settingCard, { marginBottom: 50 }]}>
         <TouchableOpacity style={styles.optionItem}>
           <Text style={styles.optionText}>Đánh giá ứng dụng</Text>
-          <Ionicons name="chevron-forward" size={20} color="#555" />
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
         </TouchableOpacity>
-
-        <TouchableOpacity 
-            style={styles.optionItem} 
-            onPress={() => navigation.navigate("Đổi mật khẩu")}> 
+      </View>
+      <View style={styles.settingCard}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => handleToChangePassword()}
+        >
           <Text style={styles.optionText}>Đổi mật khẩu</Text>
-          <Ionicons name="chevron-forward" size={20} color="#555" />
+          <Ionicons name="chevron-forward" size={20} color="#0090FF" />
         </TouchableOpacity>
       </View>
     </View>
@@ -58,7 +86,7 @@ const SettingsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F7F8FA",
+    backgroundColor: "#EFF3F6",
     padding: 20,
   },
   header: {
@@ -73,21 +101,18 @@ const styles = StyleSheet.create({
   },
   settingCard: {
     backgroundColor: "white",
-    padding: 20,
+    padding: 15,
     borderRadius: 15,
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
+    marginBottom: 10,
   },
   optionItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    marginBottom: 15,
-    borderBottomColor: "#E0E0E0",
   },
   optionText: {
     fontSize: 16,

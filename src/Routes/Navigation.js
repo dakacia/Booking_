@@ -13,8 +13,8 @@ import EditProfile from "../Pages/Profile/EditProfile";
 import SettingsScreen from "../Pages/Settings/SettingsScreen";
 import ChangePasswordScreen from "../Pages/Settings/ChangePasswordScreen";
 import RewardMember from "../Pages/Profile/RewardMember";
-import Point from "../Pages/Profile/Points";
-import PointHistory from "../Pages/Profile/PointsHistory";
+import Points from "../Pages/Profile/Points";
+import PointsHistory from "../Pages/Profile/PointsHistory";
 
 import AccountScreen from "../Pages/Account/AccountScreen";
 import NotificationScreen from "../Pages/Notification/NotificationScreen";
@@ -45,16 +45,76 @@ const HomeStackNavigator = () => {
   );
 };
 // Stack Profile
-const ProfileStackNavigator = () => {
+const AccountStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
-      <Stack.Screen name="Hồ sơ" component={Profile} />
-      <Stack.Screen name="Chỉnh sửa hồ sơ" component={EditProfile} />
-      <Stack.Screen name="Cài đặt" component={SettingsScreen} />
-      <Stack.Screen name="Đổi mật khẩu" component={ChangePasswordScreen} />
-      <Stack.Screen name ="Phần thưởng & Thành viên" component={RewardMember} />
-      <Stack.Screen name = "Điểm thưởng" component = {Point}/>
-      <Stack.Screen name = "Lịch sử dùng điểm" component = {PointHistory}/>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+          tabBarVisible: false, // Ẩn thanh tab dưới cùng
+          title: "Hồ sơ",
+        }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerShown: true,
+          tabBarVisible: false, // Ẩn thanh tab dưới cùng
+          title: "Chỉnh sửa hồ sơ",
+        }}
+      />
+      <Stack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{
+          headerShown: true,
+          tabBarVisible: false,
+          title: "Cài đặt ", // Ẩn thanh tab dưới cùng
+        }}
+      />
+      <Stack.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
+        options={{
+          headerShown: true,
+          tabBarVisible: false, // Ẩn thanh tab dưới cùng
+          title: "Đổi mật khẩu",
+        }}
+      />
+      <Stack.Screen
+        name="RewardMember"
+        component={RewardMember}
+        options={{
+          headerShown: true,
+          tabBarVisible: false, // Ẩn thanh tab dưới cùng
+          title: "Phần thưởng & Thành viên",
+        }}
+      />
+      <Stack.Screen
+        name="Points"
+        component={Points}
+        options={{
+          headerShown: true,
+          tabBarVisible: false, // Ẩn thanh tab dưới cùng
+          title: "Điểm thưởng ",
+        }}
+      />
+      <Stack.Screen
+        name="PointsHistory"
+        component={PointsHistory}
+        options={{
+          headerShown: true,
+          tabBarVisible: false, // Ẩn thanh tab dưới cùng
+          title: "Lịch sử điểm thưởng",
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -128,7 +188,7 @@ const MainNavigator = () => {
       />
       <Tab.Screen
         name="AccountTab"
-        component={ProfileStackNavigator}
+        component={AccountStackNavigator}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
             const iconName = focused ? "person" : "person-outline";
